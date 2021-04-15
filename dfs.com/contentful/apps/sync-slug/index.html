@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Contentful</title>
+
+    <script src="https://unpkg.com/@contentful/app-sdk@3"></script>
+
+</head>
+<body>
+
+<script>
+    window.contentfulApp.init(function (sdk) {
+        var internalValue = sdk.field.getValue();
+
+        sdk.space.getEntries({
+            'content_type': 'page',
+            'fields.content.sys.id': sdk.entry.getSys().id
+        }).then(function (entries) {
+            if (entries.items.length) {
+                var slug = entries.items[0].fields.slug['en-US'] || '';
+
+                if (slug !== internalValue) {
+                    sdk.field.setValue(slug);
+                }
+            }
+        });
+    });
+</script>
+<p id="slug"></p>
+</body>
+</html>
+
