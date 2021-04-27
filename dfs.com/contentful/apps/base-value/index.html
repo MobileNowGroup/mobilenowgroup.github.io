@@ -10,10 +10,12 @@
 
 <script>
     window.contentfulApp.init(function (sdk) {
+        var internalValue = sdk.field.getValue();
         var fieldId = sdk.field.id;
         var targetFieldId = fieldId.replace('BaseValue', '');
 
         sdk.entry.fields[targetFieldId].onValueChanged(handleTargetChange);
+        sdk.window.updateHeight();
 
         function handleTargetChange(value) {
             if (value !== internalValue) {
